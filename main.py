@@ -8,7 +8,10 @@ INPUT_PATH = "data"
 OUTPUT_PATH = "output_ratings\s0ratings"
 
 glicko = Glicko()
-for i in range(0,1):
+
+min = 0
+max = 19
+for i in range(min, max + 1):
     with open(os.path.join(INPUT_PATH, f"S{i}.csv"), newline='') as csvfile:
         reader = csv.reader(csvfile)
         for i, row in enumerate(reader):

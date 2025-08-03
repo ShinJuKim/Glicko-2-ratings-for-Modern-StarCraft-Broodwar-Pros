@@ -152,10 +152,6 @@ class Glicko:
             pA.RD = 173.7178 * dA
 
 
-        
-
-        
-
     def display(self):
         print('========================')
         print(f'v{self.count}')
@@ -166,8 +162,10 @@ class Glicko:
             
             
         output.sort(reverse=True)
+        rank = 1
         for line in output:
-            print(f"{line[0]} ~ {line[1]} ~ {line[2]}: {line[3]}")
+            print(f"[{rank}] {line[0]} ~ {line[1]} ~ {line[2]}: {line[3]}")
+            rank += 1
         print('========================')
 
         self.count += 1

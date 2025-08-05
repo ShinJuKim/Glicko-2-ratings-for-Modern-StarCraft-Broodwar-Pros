@@ -1,12 +1,13 @@
 from Series import Series
 from Player import Player
 import math
+import csv
+
 class Glicko:    
 
     def __init__(self, systemConstant=0.5):
         self.tau = systemConstant # Should be set between 0.3 and 1.2, adjust for greatest accuracy
         self.players = {}
-        self.count = 0
 
     def update(self, series):
         #Step 1
@@ -142,6 +143,7 @@ class Glicko:
         # step 9 would be to apply step 6 to all players who did not play in the series by increasing their volatility.
 
         for key in self.players:
+            
             if (key in (series.playerA, series.playerB)):
                 continue
             # if key is not one of the players involved in the match.
@@ -150,22 +152,77 @@ class Glicko:
             dA = pA.RD / 173.7178
             dA = math.sqrt(dA ** 2 + pA.vol ** 2)
             pA.RD = 173.7178 * dA
+        
+        if "botOt" in self.players:
+            self.players.pop("botOt")
+        
+        
 
-
-    def display(self):
-        print('========================')
-        print(f'v{self.count}')
-        print('========================')
-        output = []
-        for key in self.players:
-            output.append([self.players[key].rating, self.players[key].RD, self.players[key].vol, self.players[key].ID])
+    def boostQualified(self, path):
+        # This is an optional method that aims to reward players for qualifying to compete in an ASL, even if they perform poorly.
+        # Since players pass through gruelling qualifiers before reaching ASL, achieving ro.28 twice should be better than achieving ro.28 just once.
+        qualified = set()
+        
+        with open(path, newline='') as csvfile:
+            reader = csv.reader(csvfile)
+            for i, row in enumerate(reader):
+                if (i == 0): continue
+                qualified.add(Series(row).playerA)
+                qualified.add(Series(row).playerB)
             
-            
-        output.sort(reverse=True)
-        rank = 1
-        for line in output:
-            print(f"[{rank}] {line[0]} ~ {line[1]} ~ {line[2]}: {line[3]}")
-            rank += 1
-        print('========================')
+            # print(qualified)
+        for player in qualified:
+            qualSeries = Series([0,0,0,0,0,player,"bot",1,0])
+            self.update(qualSeries)
 
-        self.count += 1
+    def decay(self, path, x):
+        qualified = set()
+        with open(path, newline='') as csvfile:
+            reader = csv.reader(csvfile)
+            for i, row in enumerate(reader):
+                if (i == 0): continue
+                qualified.add(Series(row).playerA)
+                qualified.add(Series(row).playerB)
+            
+            # print(qualified)
+        for player in self.players:
+            if player not in qualified:
+                self.players[player].rating -= x
+            
+        
+
+
+    def display(self, path=None, title=None):
+        if path:
+            with open(path, 'a') as textfile:
+                print('========================', file=textfile)
+                print(title, file=textfile)
+                print('========================', file=textfile)
+                output = []
+                for key in self.players:
+                    output.append([self.players[key].rating, self.players[key].RD, self.players[key].vol, self.players[key].ID])
+                    
+                    
+                output.sort(reverse=True)
+                rank = 1
+                for line in output:
+                    print(f"[{rank}] {line[0]} ~ {line[1]} ~ {line[2]}: {line[3]}", file=textfile)
+                    rank += 1
+                print('========================', file=textfile)
+
+        else:
+            print('========================')
+            print(title)
+            print('========================')
+            output = []
+            for key in self.players:
+                output.append([self.players[key].rating, self.players[key].RD, self.players[key].vol, self.players[key].ID])
+                
+                
+            output.sort(reverse=True)
+            rank = 1
+            for line in output:
+                print(f"[{rank}] {line[0]} ~ {line[1]} ~ {line[2]}: {line[3]}")
+                rank += 1
+            print('========================')
+

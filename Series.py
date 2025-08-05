@@ -5,8 +5,9 @@ class Series:
         self.month = month
         self.day = day
         self.number = number
-        self.playerA = playerA + f' ({aFaction})'
-        self.playerB = playerB + f' ({bFaction})'
+        
+        self.playerA = playerA + f' ({aFaction.upper()})' if aFaction else playerA
+        self.playerB = playerB + f' ({bFaction.upper()})' if bFaction else playerB
         self.aScore = aScore
         self.bScore = bScore
 
@@ -15,7 +16,11 @@ class Series:
         self.month = int(list[2])
         self.day = int(list[3])
         self.number = int(list[4])
-        self.playerA = list[5].lower() + f' ({list[9].upper()})'
-        self.playerB = list[6].lower() + f' ({list[10].upper()})'
+        if (len(list) == 11):
+            self.playerA = list[5].lower() + f' ({list[9].upper()})' 
+            self.playerB = list[6].lower() + f' ({list[10].upper()})'
+        else:
+            self.playerA = list[5].lower()[:-2] + list[5][-2].upper() + list[5].lower()[-1:]
+            self.playerB = list[6].lower() + list[6][-2].upper() + list[6].lower()[-1:]
         self.aScore = int(list[7])
         self.bScore = int(list[8])

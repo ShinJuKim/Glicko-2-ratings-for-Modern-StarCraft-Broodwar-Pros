@@ -1,6 +1,10 @@
 class Player:
-    def __init__(self, ID):
+    def __init__(self, ID, rating=1500, RD=350, vol=0.06):
         self.ID = ID
-        self.rating = 1500
-        self.RD = 350
-        self.vol = 0.06
+        self.rating = rating
+        self.RD = RD
+        self.vol = vol
+
+        if (self.ID == "bot"): #adjust as needed
+            self.rating=1350
+            self.RD = 1

@@ -34,7 +34,7 @@ Top 10 after ASL S19 (with reward for qualifying)
 9. Sharp (T): 2201.801836430542 ~ 111.8694571271262 
 10. Effort (Z): 2195.586606291218 ~ 197.51367781628508 
 
-Now, Flash's Protoss is no longer in the top 10, and actually Sharp makes the top 10. I like this list the most, especially for how it ranks players below the very top in a slightly more reasonable manner by rewarding consistent appearance in the ASL, even if they end up going 0-2.
+Now, Flash's Protoss is no longer in the top 10, and Rush moves up a few spots. I like this list the most, especially for how it ranks players below the very top in a slightly more reasonable manner by rewarding consistent appearance in the ASL, even if they end up going 0-2.
 
 Finally, I added an extra toggleable setting to decay the ratings of each player by x amount for each season they do not play, but this setting is mostly an experiment. Usually, it results in recency bias being far too strong, even more than it is by default.
 

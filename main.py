@@ -23,7 +23,7 @@ for i in range(min, max + 1):
         if BOOSTQUAL: glicko.boostQualified(os.path.join(INPUT_PATH, f"S{i}.csv"))
 
         # v Optional, decays rating by x per season not participated.
-        if DECAY: glicko.decay(os.path.join(INPUT_PATH, f"S{i}.csv"), x=25)
+        if DECAY: glicko.decay(os.path.join(INPUT_PATH, f"S{i}.csv"), x=15)
         for j, row in enumerate(reader):
             if (j == 0): continue
 
